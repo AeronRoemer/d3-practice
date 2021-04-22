@@ -2,33 +2,40 @@
 <html>
 <head>
     <style>
-        div {
-            height: 100px;
-            width: 100px;
-            background-color: steelblue;
-            margin:5px;
+        div.bar{
+            display: inline-block;
+            width: 20px;
+            height: 75px;
+            background-color: goldenrod;
         }
     </style>
-    <script src="https://d3js.org/d3.v4.min.js"></script>
 </head>
 <body>
-<div> </div>
+<div class="bar"></div>
+<div></div>
+<script src="https://d3js.org/d3.v6.min.js"></script>
 <script>
-    d3.selectAll("div")
-      .on("mouseover", function(){
-          d3.select(this)
-            .style("background-color", "orange");
+var dataArray = [5, 10, 15, 20, 25];
 
-          // Get current event info
-          console.log(d3.event);
-          
-          // Get x & y co-ordinates
-          console.log(d3.mouse(this));
-      })
-      .on("mouseout", function(){
-          d3.select(this)
-            .style("background-color", "steelblue")
-      });
+d3.select("body").selectAll("p")
+    .data(dataArray)
+    .enter() // creates a new placeholder DOM element if one is not present
+    .append("p") // creates an actual DOM element for the data
+    .text(function(d){
+        return "The value I got from the array is:" + d
+    }) //executed five times, one for each element in the array 
+    .style("background-color", function(d){
+        if (d % 10){
+            return "red";
+        } else {
+            return "black";
+        }
+    })
+
+// d3.csv("dataset.csv", function(data) {
+//     console.log(data.YearBuilt)
+//   });
+
 </script>
 </body>
 </html>
