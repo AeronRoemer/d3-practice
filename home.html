@@ -14,6 +14,7 @@
 <body>
 
 <script src="https://d3js.org/d3.v6.min.js"></script>
+<script src="https://d3js.org/d3-selection-multi.v0.4.min.js"></script>
 <script>
 let dataArray = [];
 for (let i = 0; i < 25; i++){
@@ -69,7 +70,7 @@ const svg = d3.select("body")
             .attr("width", w)
             .attr("height", h);
 
-var circles = svg.selectAll("rect")
+svg.selectAll("rect")
     .data(dataArray)
     .enter()
     .append("rect")
@@ -77,12 +78,30 @@ var circles = svg.selectAll("rect")
         return i * (w/dataArray.length)
     })
     .attr("y", function(d){
-        return h - d;
+        return h - (d * 3);
     })
     .attr("width", w/dataArray.length - barPadding)
     .attr("height", function(d){
-        return d * 6;
-    });
+        return (d * 3);
+    })
+    .attr("fill", function(d){
+        return "rgb(0,0," + (d*10) +")"
+    })
+
+svg.selectAll("text")
+    .data(dataArray)
+    .enter()
+    .append("text")
+    .text(function(d){
+        return d;
+    })
+    .attrs({x: function (d, i){return i * (w/dataArray.length) + (w/dataArray.length - barPadding) / 2;},
+        y: function(d){return h - (d * 3) + 15;},
+        "font-family": "sans-serif",
+        "font-size": "11px",
+        "fill": "white",
+        "text-anchor": "middle"
+    })  // 'attrs' required additional D3 script in current version
 
 
 // d3.csv("dataset.csv", function(data) {
